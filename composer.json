@@ -1,0 +1,28 @@
+{
+    "name": "peterfox/hexavel-behat",
+    "description": "A Library for Hexavel which makes BDD with Behat simpler",
+    "type": "library",
+    "keywords": ["laravel", "hexavel", "behat", "page pattern", "bdd"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Fox",
+            "email": "peter.fox@peterfox.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hexavel\\": "src"
+        }
+    },
+    "require": {
+        "illuminate/support": "^5.0",
+        "behat/behat": "^3.0",
+        "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.1",
+        "laracasts/behat-laravel-extension": "^1.0",
+        "sensiolabs/behat-page-object-extension": "2.0.x-dev@dev",
+        "bossa/phpspec2-expect": "^1.0",
+        "peterfox/behat-resources-extension": "^1.0"
+    }
+}
