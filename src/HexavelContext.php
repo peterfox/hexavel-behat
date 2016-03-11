@@ -178,10 +178,10 @@ abstract class HexavelContext extends PageObjectContext implements MinkAwareCont
     /**
      * Opens specified page.
      *
-     * @Given /^(?:|I )am on "(?P<page>[^"]+)"$/
-     * @When /^(?:|I )go to "(?P<page>[^"]+)"$/
-     * @Given /^(?:|I )am on "(?P<page>[^"]+)" with the parameters:$/
-     * @When /^(?:|I )go to "(?P<page>[^"]+)" with the parameters:$/
+     * @Given /^(?:|I )am on (?:|the )"(?P<page>[^"]+)"(?:| page)$/
+     * @When /^(?:|I )go to (?:|the )"(?P<page>[^"]+)"(?:| page)$/
+     * @Given /^(?:|I )am on (?:|the )"(?P<page>[^"]+)"(?:| page) with the parameters:$/
+     * @When /^(?:|I )go to (?:|the )"(?P<page>[^"]+)"(?:| page) with the parameters:$/
      * @param string $page
      * @param array $parameters
      */
@@ -191,8 +191,8 @@ abstract class HexavelContext extends PageObjectContext implements MinkAwareCont
     }
 
     /**
-     * @Given /^(?:|I )am on "(?P<page>[^"]+)" with the parameters "(?P<parametersIdentifier>[^"]+)"$/
-     * @When /^(?:|I )go to "(?P<page>[^"]+)" with the parameters "(?P<parametersIdentifier>[^"]+)"$/
+     * @Given /^(?:|I )am on (?:|the )"(?P<page>[^"]+)"(?:| page) with the parameters "(?P<parametersIdentifier>[^"]+)"$/
+     * @When /^(?:|I )go to (?:|the )"(?P<page>[^"]+)"(?:| page) with the parameters "(?P<parametersIdentifier>[^"]+)"$/
      * @param $page
      * @param $parameters
      */
@@ -205,7 +205,7 @@ abstract class HexavelContext extends PageObjectContext implements MinkAwareCont
     /**
      * Opens specified page.
      *
-     * @Then /^(?:|I )should be on "(?P<page>[^"]+)"$/
+     * @Then /^(?:|I )should be on (?:|the )"(?P<page>[^"]+)"(?:| page)$/
      * @param $page
      */
     public function seeing($page)
@@ -251,6 +251,46 @@ abstract class HexavelContext extends PageObjectContext implements MinkAwareCont
     public function pressButton($button)
     {
         $this->getCurrentPage()->pressButton($button);
+    }
+
+    /**
+     * @Given /^(?:|I )type into the (?P<field>[^"]*) field "(?P<text>[^"]*)"$/
+     * @param $field
+     * @param $text
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     */
+    public function enterText($field, $text)
+    {
+        $this->getCurrentPage()->fillField($field, $text);
+    }
+
+    /**
+     * @Given /^(?:|I )fill in the following fields with:$/
+     * @param TableNode $tableNode
+     */
+    public function enterField(TableNode $tableNode)
+    {
+        $page = $this->getCurrentPage();
+
+        foreach ($tableNode->getHash() as $resourceHash) {
+            $page->fillField($resourceHash['field'], $resourceHash['value']);
+        }
+    }
+
+    /**
+     * @Given /^(?:|I )fill in the (?P<resource>[^"]*) fields for "(?P<name>[^"]*)"$/
+     * @param TableNode $tableNode
+     */
+    public function enterFieldsFromResource($resource, $name)
+    {
+        $page = $this->getCurrentPage();
+        $resource = $this->getResource($resource, $name);
+
+        foreach ($resource as $field => $value) {
+            if ($page->findField($field)) {
+                $page->fillField($field, $value);
+            }
+        }
     }
 
     /**
