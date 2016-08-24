@@ -21,7 +21,7 @@
         "behat/mink": "^1.7",
         "behat/mink-extension": "^2.1",
         "laracasts/behat-laravel-extension": "^1.0",
-        "sensiolabs/behat-page-object-extension": "2.0.x-dev@dev",
+        "sensiolabs/behat-page-object-extension": "~2.0.0",
         "bossa/phpspec2-expect": "^1.0",
         "peterfox/behat-resources-extension": "^1.0"
     }
